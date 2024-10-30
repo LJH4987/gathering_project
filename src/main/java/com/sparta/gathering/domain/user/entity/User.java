@@ -36,9 +36,6 @@ public class User extends Timestamped {
     @Column
     private String password; // 일반 로그인 사용자의 비밀번호 (소셜 로그인 사용자는 null 가능)
 
-    @Column
-    private String phone_Number; // 테스트용
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserRole userRole; // 사용자 역할 (ROLE_USER, ROLE_ADMIN)
