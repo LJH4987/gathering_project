@@ -22,7 +22,7 @@ import org.hibernate.annotations.SQLDelete;
 @Entity
 @NoArgsConstructor
 @Table(name = "hashtag")
-@Filter(name = "deletedFilter", condition = "deleted_at IS NULL")
+@Filter(name = "deletedFilter", condition = "deleted_at IS NULL")//
 @SQLDelete(sql = "UPDATE `hashtag` SET deleted_at = NOW() WHERE id = ?")
 public class HashTag extends Timestamped {
 
