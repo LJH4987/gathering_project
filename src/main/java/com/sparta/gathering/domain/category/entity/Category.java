@@ -24,7 +24,7 @@ import org.hibernate.annotations.SQLDelete;
 @Entity
 @NoArgsConstructor
 @Table(name = "category")
-@Filter(name = "deletedFilter", condition = "deleted_at IS NULL")
+@Filter(name = "deletedFilter", condition = "deleted_at IS NULL")//
 @SQLDelete(sql = "UPDATE category SET deleted_at = NOW() WHERE id = ?")
 public class Category extends Timestamped {
 
