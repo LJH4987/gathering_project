@@ -101,11 +101,10 @@ tasks.withType(Checkstyle).configureEach {
 
 tasks.named('checkstyleMain').configure {
     doLast {
-        if (tasks.checkstyleMain.get().didWork && tasks.checkstyleMain.get().reports.html.destination.exists()) {
-            def reportFile = tasks.checkstyleMain.get().reports.html.destination
+        def reportFile = tasks.checkstyleMain.get().reports.html.destination
+        if (tasks.checkstyleMain.get().didWork && reportFile.exists()) {
             def reportText = reportFile.text
             if (reportText.contains('[WARN]')) {
-                tasks.checkstyleMain.get().reports.html.required = true
                 throw new GradleException("Checkstyle violations found. Please fix them.")
             }
         }
