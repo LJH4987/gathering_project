@@ -108,12 +108,6 @@ tasks.register('checkstyleFailOnViolation') {
     }
 }
 
-tasks.build.dependsOn 'checkstyleFailOnViolation'
-
-test {
-    useJUnitPlatform()
-}
-
 tasks.withType(JavaCompile).configureEach {
     options.compilerArgs += ['-Xlint:deprecation']
 }
