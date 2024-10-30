@@ -105,6 +105,7 @@ tasks.named('checkstyleMain').configure {
             def reportFile = tasks.checkstyleMain.get().reports.html.destination
             def reportText = reportFile.text
             if (reportText.contains('[WARN]')) {
+                tasks.checkstyleMain.get().reports.html.required = true
                 throw new GradleException("Checkstyle violations found. Please fix them.")
             }
         }
