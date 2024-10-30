@@ -41,11 +41,11 @@ jobs:
         run: ./gradlew checkstyleMain
 
 
-      - name: Checkstyle HTML 보고서 Archive
+      - name: Checkstyle HTML 보고서 저장
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: Checkstyle HTML 리포트 저장
+          name: checkstyle-html-report
           path: build/reports/checkstyle/checkstyleMain.html
 
 
