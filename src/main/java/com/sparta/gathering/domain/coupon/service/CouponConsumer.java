@@ -49,8 +49,7 @@ public class CouponConsumer {
             for (int i = 0; i < MAX_THREADS; i++) {
                 executorService.submit(() -> {
                     try {
-                        List<Object> batch = redisTemplate.opsForList().rightPop("couponQueue", BATCH_SIZE);
-
+                        List<Object> batch = redisTemplate.opsForList().range("couponQueue", 0, BATCH_SIZE - 1);
                         if (batch != null && !batch.isEmpty()) {
                             for (Object data : batch) {
                                 try {
@@ -58,10 +57,11 @@ public class CouponConsumer {
                                         processCouponRequest((String) data);
                                     }
                                 } catch (Exception e) {
-                                    log.error("쿠폰 요청 처리 실패: {}", e.getMessage());
+                                    log.error("쿠폰 요청 처리 실패: {}", e);
                                     redisTemplate.opsForList().leftPush("failureQueue", data); // 실패 큐에 저장
                                 }
                             }
+                            redisTemplate.opsForList().trim("couponQueue", BATCH_SIZE, -1); // 처리한 데이터 삭제
                         }
                     } catch (Exception e) {
                         log.error("쿠폰 큐를 처리하는 중 오류가 발생했습니다: {}", e.getMessage());
@@ -69,7 +69,7 @@ public class CouponConsumer {
                 });
             }
         } finally {
-            if (lock.isHeldByCurrentThread()) {
+            if (lock.isLocked() && lock.isHeldByCurrentThread()) {
                 lock.unlock();
             }
         }
