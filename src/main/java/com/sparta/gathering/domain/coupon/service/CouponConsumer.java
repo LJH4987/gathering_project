@@ -57,7 +57,7 @@ public class CouponConsumer {
                                         processCouponRequest((String) data);
                                     }
                                 } catch (Exception e) {
-                                    log.error("쿠폰 요청 처리 실패: {}", e);
+                                    log.error("쿠폰 요청 처리 실패: {}", e.getMessage());
                                     redisTemplate.opsForList().leftPush("failureQueue", data); // 실패 큐에 저장
                                 }
                             }
