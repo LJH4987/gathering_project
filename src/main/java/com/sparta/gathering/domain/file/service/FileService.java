@@ -36,6 +36,7 @@ public class FileService {
 
     @Transactional
     public String saveImage(MultipartFile file, Long gatherId, AuthenticatedUser authenticatedUser) {
+        gatherRepository.findById(gatherId).orElseThrow(() -> new BaseException(ExceptionEnum.GATHER_NOT_FOUND));
         validateManager(gatherId, authenticatedUser);
         String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
         final Path path = Paths.get("upload", fileName);
@@ -54,6 +55,7 @@ public class FileService {
     }
 
     public List<FileResponse> getImage(Long gatherId) {
+        gatherRepository.findById(gatherId).orElseThrow(() -> new BaseException(ExceptionEnum.GATHER_NOT_FOUND));
         List<File> files = fileRepository.findByGatherId(gatherId);
         if (files.isEmpty()) {
             throw new BaseException(ExceptionEnum.FILE_NOT_FOUND);
